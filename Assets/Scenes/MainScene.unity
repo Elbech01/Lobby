@@ -848,7 +848,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   netSettings: {fileID: 1297632213}
-  chat: {fileID: 0}
 --- !u!4 &1352246222
 Transform:
   m_ObjectHideFlags: 0
@@ -945,17 +944,7 @@ MonoBehaviour:
     PlayerPrefab: {fileID: 0}
     NetworkPrefabs:
     - Override: 0
-      Prefab: {fileID: 4954475338998257296, guid: e5f6452df9a75b64b9e9183c65fbf175, type: 3}
-      SourcePrefabToOverride: {fileID: 0}
-      SourceHashToOverride: 0
-      OverridingTargetPrefab: {fileID: 0}
-    - Override: 0
-      Prefab: {fileID: 8777578650663659165, guid: d6ab7a036a2d7db42b2d64b7be64fc5b, type: 3}
-      SourcePrefabToOverride: {fileID: 0}
-      SourceHashToOverride: 0
-      OverridingTargetPrefab: {fileID: 0}
-    - Override: 0
-      Prefab: {fileID: 8519091431578029133, guid: f134a0e9918514d4a9f3ea542769e02b, type: 3}
+      Prefab: {fileID: 1352246220}
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
