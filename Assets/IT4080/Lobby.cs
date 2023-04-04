@@ -35,6 +35,7 @@ public class Lobby : NetworkBehaviour
 
     public void InitialClear()
     {
+        Debug.Log("Cleared");
         connectedPlayers.Clear();
     }
 
@@ -54,6 +55,7 @@ public class Lobby : NetworkBehaviour
             card.SetStatus(status);
            
         }
+        EnableStartIfAllReady();
     }
 
     private It4080.PlayerCard AddPlayerCard(ulong clientId)
@@ -67,7 +69,7 @@ public class Lobby : NetworkBehaviour
         {
             you = "(you)";
             card.ShowReady(true);
-            //card.ReadyToggled += ClientOnReadyToggled;
+            card.ReadyToggled += ClientOnReadyToggled;
         }
         else
         {
@@ -99,9 +101,9 @@ public class Lobby : NetworkBehaviour
         AddPlayersUsingPlayerData(NetworkHandler.Singleton.allPlayers);
     }
 
-    private void ClientOnReadyToggled(ulong clientId)
+    private void ClientOnReadyToggled(bool isReady)
     {
-        
+        RequestSetReadyServerRpc(isReady);
     }
 
     private void btnStartOnClick()
@@ -134,5 +136,21 @@ public class Lobby : NetworkBehaviour
         {
             btnStart.GetComponentInChildren<TextMeshProUGUI>().text = "Players Not Ready";
         }
+    }
+
+    public void ServerOnKickButton(ulong clientId)
+    {
+        NetworkManager.DisconnectClient(clientId);
+        NetworkHandler.Singleton.RemovePlayerFromList(clientId);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void RequestSetReadyServerRpc(bool isReady, ServerRpcParams rpcParams = default)
+    {
+        ulong clientId = rpcParams.Receive.SenderClientId;
+        int playerIndex = NetworkHandler.Singleton.FindPlayerIndex(clientId);
+        It4080.PlayerData data = NetworkHandler.Singleton.allPlayers[playerIndex];
+        data.isReady = isReady;
+        NetworkHandler.Singleton.allPlayers[playerIndex] = data;
     }
 }
